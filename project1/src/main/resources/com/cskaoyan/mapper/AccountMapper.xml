@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cskaoyan.mapper.AccountMapper">
+    <insert id="insertAccount">
+        <selectKey order="AFTER" keyColumn="idz" resultType="int">
+            select LAST_INSERT_ID() as idz
+        </selectKey>
+        insert into account(id,username,password)  values (null,#{account.username} ,#{account.password} )
+    </insert>
+    <select id="getAccountById" resultType="com.cskaoyan.bean.Account">
+        select id,username,password from account where id=#{id}
+    </select>
+    <select id="login" resultType="integer">
+        select id from account where username=#{account.username} and password=#{account.password}
+    </select>
+    <select id="usernameExist" resultType="int">
+        select count(username) from account where username=#{username}
+    </select>
+    <insert id="leaveMessage">
+        insert into message values (null,#{username} ,#{message})
+    </insert>
+    <select id="checkMessage" resultType="com.cskaoyan.bean.Message">
+        select username,message from message
+    </select>
+</mapper>
